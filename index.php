@@ -1,68 +1,71 @@
-<html>
-    <UTF-8>
+<?php
+include "retrieve.php";
+$success = $_GET['success'] ?? null;
+$error = $_GET['error'] ?? null;
+?>
+
+<!doctype html>
+<html lang="en">
 <head>
-<title> PDC10 Registrations </title>
-<style> table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-  }</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<title>PDC10 Registrations</title>
 </head>
+<body style="background:#FCF2CD">
 
-<body>
-
-    <h1 style="color:rgb(0, 0, 0);font-size:45px;"> &nbsp; &nbsp; Registrations </h1>
-    &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;<input type="submit" value="Add new registration" class="btn btn-secondary btn-lg"  required/> 
-    <br>
-    <br>
-<center>
-    <table style="width: 75%">
-        <tr>
-          <th>ID</th>
-          <th>Complete Name</th>
-          <th>Email </th>
-          <th>Picture</th> 
-          <th>Registered Date</th>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>John Cena</td>
-          <td>JC@yahoo.com</td>
-          <td>Display Picture</td>
-          <td> Sept 1 2022 09:AM </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>John Michael</td>
-          <td>JohnM@gmail.com</td>
-          <td>Display Picture</td>
-          <td> Sept 2 2022 09:AM </td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>John Doe</td>
-            <td>DoeJohn@gmail.com</td>
-            <td>Display Picture</td>
-            <td> Sept 3 2022 09:AM </td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>John MWick</td>
-            <td>JohnWick@gmail.com</td>
-            <td>Display Picture</td>
-            <td> Sept 4 2022 09:AM </td>
-        </tr>
-      </table>
-</center>
+<div>
+    <?php if (!is_null($success)): ?>
+        <div class="alert alert-success" role="alert">
+            Successfully saved your registration!
+        </div>
+    <?php endif ?>
+            
+    <?php if (!is_null($error)): ?>
+        <div class="alert alert-danger" role="alert">
+            Failed to save your registration, please upload the appropriate file type.
+        </div>
+    <?php endif ?>
+</div>
 
 
+    <div class="container">
+        
+                   <center> <h2 style="color:#878787 "><b>Registrations</b></h2> </center>
+                    <form method="POST" action="register.php">
+                    <a href="register.php"><button type="button" class="btn btn-outline-secondary">Add Another Registration</button></a>
+                    </form>
+    </div>
 
-
+    <div class="container">
+        <table class="table table-striped table-hover">
+        <thead class="thead-dark bg-dark" style="color:white">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Complete Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Picture</th>
+                    <th scope="col">Registered Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $retrieve = new Retrieve;
+                $retrieveData = $retrieve->retrieveData();
+                foreach($retrieveData as $data){
+                ?>
+                    <tr>
+                        <th scope="row"><?php echo $data['id']?></th>
+                        <td><?php echo $data['complete_name']?></td>
+                        <td><?php echo $data['email']?></td>
+                        <td><?php echo "<img width=250x; height=250x; src=" . $data['picture_path'] . ">";?></td>
+                        <td><?php echo $data['registered_at']?></td>
+                    </tr>
+                <?php } ?>				
+            </tbody>
+        </table>
+    </div>
 
 </body>
-
-
-
-
-
-    
 </html>
