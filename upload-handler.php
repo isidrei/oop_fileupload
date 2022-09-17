@@ -28,8 +28,9 @@ else{
 			error_log(e->getMessage());
 		}
 
-	}
+	} else {
 
 	header('Location: index.php?error=' . $e->getMessage());
+}
 }
 ?>
